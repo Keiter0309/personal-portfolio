@@ -22,7 +22,6 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import nordics from "../public/nordics.jpg";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -50,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
-      <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200 dark:from-blue-900 dark:via-blue-800 dark:to-blue-950">
+      <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200 dark:from-blue-900 dark:via-blue-800 dark:to-blue-950 animate-gradient">
         <motion.div
           className="text-center space-y-4 md:space-y-6 max-w-3xl px-4"
           initial={{ opacity: 0, y: 20 }}
@@ -69,6 +68,18 @@ export default function Home() {
           >
             <a href="#contact" className="flex items-center">
               Get in Touch <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+          <Button
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 ml-5"
+          >
+            <a
+              href="https://drive.google.com/file/d/1"
+              target="_blank"
+              className="flex items-center"
+            >
+              Download Resume <ExternalLink className="ml-2 h-4 w-4" />
             </a>
           </Button>
         </motion.div>
@@ -120,22 +131,51 @@ export default function Home() {
           variants={fadeIn}
         >
           {[
-            "React",
-            "Next.js",
-            "TypeScript",
-            "Node.js",
-            "Express",
-            "MongoDB",
-            "MySQL",
-            "Docker",
-            "AWS",
-          ].map((skill) => (
+            {
+              name: "React",
+              link: "https://reactjs.org",
+            },
+            {
+              name: "Next.js",
+              link: "https://nextjs.org",
+            },
+            {
+              name: "TypeScript",
+              link: "https://www.typescriptlang.org",
+            },
+            {
+              name: "Node.js",
+              link: "https://nodejs.org",
+            },
+            {
+              name: "Express",
+              link: "https://expressjs.com",
+            },
+            {
+              name: "MongoDB",
+              link: "https://www.mongodb.com",
+            },
+            {
+              name: "MySQL",
+              link: "https://www.mysql.com",
+            },
+            {
+              name: "Tailwind CSS",
+              link: "https://tailwindcss.com",
+            },
+            {
+              name: "AWS",
+              link: "https://aws.amazon.com",
+            },
+          ].map((skill, index) => (
             <Badge
-              key={skill}
+              key={index}
               variant="secondary"
-              className="text-sm md:text-lg py-1 md:py-2 px-2 md:px-4 bg-white text-blue-800 dark:bg-blue-800 dark:text-blue-100 shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="text-sm md:text-lg py-1 md:py-2 px-2 md:px-4 bg-white text-blue-800 dark:bg-blue-800 dark:text-blue-100 shadow-md hover:shadow-lg transition-shadow duration-300 hover:cursor-pointer"
             >
-              {skill}
+              <a href={skill.link} target="_blank">
+                {skill.name}
+              </a>
             </Badge>
           ))}
         </motion.div>
@@ -151,7 +191,6 @@ export default function Home() {
           initial: { opacity: 0 },
           animate: { opacity: 1, transition: { staggerChildren: 0.1 } },
         }}
-
       >
         <motion.h2 className="section-title" variants={fadeIn}>
           My Projects
@@ -166,7 +205,7 @@ export default function Home() {
             },
             {
               title: "Dictionary Application",
-              desc: "A dictionary app build with React, Express, AWS and MySQL database.",
+              desc: "A dictionary app build with React, Express and MySQL.",
               link: "https://github.com/Keiter0309/Dictiohub-Dictionary",
               image: "/dictiohub.jpg",
             },
@@ -181,6 +220,12 @@ export default function Home() {
               desc: "A weather app build with Next.js and OpenWeather API",
               link: "https://github.com/Keiter0309/BreezyWeatherApp",
               image: "/breezy.jpg",
+            },
+            {
+              title: "Hotel Booking System",
+              desc: "A hotel booking system with PHP and MySQL database. ",
+              link: "https://github.com/Keiter0309/Sogo-Hotel",
+              image: "/sogo.jpg",
             },
           ].map((project, index) => (
             <motion.div key={index} variants={fadeIn}>
