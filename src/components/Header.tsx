@@ -71,7 +71,7 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link
-          href="#/"
+          href="/"
           className="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
         >
           My Portfolio

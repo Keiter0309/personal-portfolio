@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import "../styles/styles.css";
@@ -18,7 +19,10 @@ import {
   ExternalLink,
   Instagram,
   Link,
+  ArrowUp,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import nordics from "../public/nordics.jpg";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -26,7 +30,24 @@ const fadeIn = {
   transition: { duration: 0.5 },
 };
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
 export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
       <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200 dark:from-blue-900 dark:via-blue-800 dark:to-blue-950">
@@ -37,7 +58,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-900 dark:text-blue-100 text-balance typing-animation">
-            Hi, I'm <span className="text-blue-600">Keith</span>
+            Hi, I'm <span className="text-blue-600 dark:text-black">Keith</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-blue-700 dark:text-blue-200 text-balance">
             A Web Developer
@@ -68,7 +89,7 @@ export default function Home() {
           About Me
         </motion.h2>
         <motion.p
-          className="text-base md:text-lg text-center max-w-2xl mx-auto text-blue-700 dark:text-blue-300 text-balance"
+          className="text-base md:text-lg text-center max-w-2xl mx-auto text-blue-700 dark:text-gray-300 text-balance"
           variants={fadeIn}
         >
           I'm a passionate web developer with a growing interest in both
@@ -130,6 +151,7 @@ export default function Home() {
           initial: { opacity: 0 },
           animate: { opacity: 1, transition: { staggerChildren: 0.1 } },
         }}
+
       >
         <motion.h2 className="section-title" variants={fadeIn}>
           My Projects
@@ -138,28 +160,27 @@ export default function Home() {
           {[
             {
               title: "E-commerce Platform",
-              desc: "A full-stack online store with Angular and Node.js",
+              desc: `A full-stack online store with Angular and Node.js.`,
               link: "https://github.com/Keiter0309/Nordics",
+              image: "/nordics.jpg",
             },
             {
               title: "Dictionary Application",
-              desc: "A dictionary app build with React, Express, AWS and MySQl",
+              desc: "A dictionary app build with React, Express, AWS and MySQL database.",
               link: "https://github.com/Keiter0309/Dictiohub-Dictionary",
+              image: "/dictiohub.jpg",
             },
             {
               title: "Portfolio Website",
-              desc: "A responsive portfolio site using modern web technologies",
+              desc: "A responsive portfolio site using Next.js and Tailwind CSS.",
               link: "https://github.com/Keiter0309",
+              image: "/portfolio.jpg",
             },
             {
-              title: "Weather Application",
+              title: "Breezy Weather App",
               desc: "A weather app build with Next.js and OpenWeather API",
               link: "https://github.com/Keiter0309/BreezyWeatherApp",
-            },
-            {
-              title: "Hotel Booking System",
-              desc: "A hotel booking system with PHP and MySQL",
-              link: "https://github.com/Keiter0309/Sogo-Hotel",
+              image: "/breezy.jpg",
             },
           ].map((project, index) => (
             <motion.div key={index} variants={fadeIn}>
@@ -169,7 +190,15 @@ export default function Home() {
                     {project.title}
                   </CardTitle>
                   <CardDescription className="text-sm md:text-base text-blue-600 dark:text-blue-300">
-                    {project.desc}
+                    <div className="flex items-center align-center justify-center">
+                      <a href={project.link} target="_blank">
+                        <img
+                          src={project.image}
+                          className="w-full h-50 object-contain rounded-lg mb-5"
+                        />
+                        {project.desc}
+                      </a>
+                    </div>
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -238,6 +267,16 @@ export default function Home() {
           </a>
         </motion.div>
       </motion.section>
+
+      <Button
+        onClick={scrollToTop}
+        className={cn(
+          "fixed bottom-4 right-4 bg-blue-600 text-white p-2 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300",
+          isScrolled ? "block" : "hidden"
+        )}
+      >
+        <ArrowUp className="h-6 w-6" />
+      </Button>
     </div>
   );
 }
