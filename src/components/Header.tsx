@@ -8,57 +8,48 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
+const NAV_ITEMS = [
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#contact", label: "Contact" },
+];
+
+const NavButton = ({
+  href,
+  label,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  onClick?: () => void;
+}) => (
+  <Button
+    variant="ghost"
+    className="text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+    asChild
+    onClick={onClick}
+  >
+    <Link href={href}>{label}</Link>
+  </Button>
+);
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const NavItems = () => (
-    <>
-      <li>
-        <Button
-          variant="ghost"
-          className="text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-          asChild
-        >
-          <Link href="/#about">About</Link>
-        </Button>
-      </li>
-      <li>
-        <Button
-          variant="ghost"
-          className="text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-          asChild
-        >
-          <Link href="/#skills">Skills</Link>
-        </Button>
-      </li>
-      <li>
-        <Button
-          variant="ghost"
-          className="text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-          asChild
-        >
-          <Link href="/#projects">Projects</Link>
-        </Button>
-      </li>
-      <li>
-        <Button
-          variant="ghost"
-          className="text-blue-800 dark:text-blue-200 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-          asChild
-        >
-          <Link href="/#contact">Contact</Link>
-        </Button>
-      </li>
-    </>
-  );
+  const closeSheet = () => {
+    setIsSheetOpen(false);
+  };
 
   return (
     <header
@@ -76,12 +67,16 @@ export default function Header() {
         >
           My Portfolio
         </Link>
-        <nav className="flex items-center space-x-4">
-          <ul className="hidden md:flex space-x-4">
-            <NavItems />
+        <nav className="flex space-x-4">
+          <ul className="hidden md:flex md:items-start space-x-4">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href} className="md:list-none">
+                <NavButton href={item.href} label={item.label} />
+              </li>
+            ))}
           </ul>
           <ThemeToggle />
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
@@ -90,7 +85,14 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="flex flex-col space-y-4 mt-8">
-                <NavItems />
+                {NAV_ITEMS.map((item) => (
+                  <NavButton
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                    onClick={closeSheet}
+                  />
+                ))}
               </nav>
             </SheetContent>
           </Sheet>
