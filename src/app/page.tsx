@@ -18,7 +18,9 @@ import {
   ExternalLink,
   Instagram,
   Link,
+  ArrowUp,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -26,7 +28,25 @@ const fadeIn = {
   transition: { duration: 0.5 },
 };
 
+// Back to top button
+const backToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
 export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
       <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-50 to-blue-200 dark:from-blue-900 dark:via-blue-800 dark:to-blue-950">
@@ -143,7 +163,7 @@ export default function Home() {
             },
             {
               title: "Dictionary Application",
-              desc: "A dictionary app build with React, Express, AWS and MySQl",
+              desc: "A dictionary app build with React, Express, AWS and MySQL",
               link: "https://github.com/Keiter0309/Dictiohub-Dictionary",
             },
             {
@@ -238,6 +258,15 @@ export default function Home() {
           </a>
         </motion.div>
       </motion.section>
+
+      {isScrolled && (
+        <Button
+          onClick={backToTop}
+          className="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full"
+        >
+          <ArrowUp className="h-6 w-6" />
+        </Button>
+      )}
     </div>
   );
 }
