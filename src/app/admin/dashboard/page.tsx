@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import AdminHeader from "@/components/AdminHeader";
 import ProjectsContent from "./ProjectsContent/ProjectsContent";
 import NameContent from "./NameContent/NameContent";
 import SubTitleContent from "./SubTitleContent/SubTitleContent";
@@ -123,7 +122,7 @@ export default function DashboardPage() {
               className="mt-6 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
             >
               <div className="flex justify-center space-y-1">
-                <LogOutIcon /> Logout
+                <LogOutIcon /> {isSidebarOpen && "Logout"}
               </div>
             </button>
           </div>
