@@ -1,4 +1,7 @@
+import dbConnect from "@/lib/db";
 import mongoose from "mongoose";
+
+await dbConnect();
 
 const skillSchema = new mongoose.Schema({
   skillName: {
@@ -11,4 +14,5 @@ const skillSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Skill || mongoose.model("Skill", skillSchema);
+const Skill = mongoose.models.Skill || mongoose.model("Skill", skillSchema);
+export default Skill;

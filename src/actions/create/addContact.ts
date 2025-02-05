@@ -22,6 +22,7 @@ const addContact = async (payload: Contact): Promise<void> => {
   });
   const data = JSON.parse(JSON.stringify(metaData));
   metaData.save();
+  console.log(data);
   return data;
 };
 

@@ -1,5 +1,4 @@
 "use server";
-
 import skill from "@/models/skill";
 
 interface Skill {
@@ -15,7 +14,7 @@ const addSkill = async (post: Skill): Promise<void> => {
     skillLinks,
   });
   const data = JSON.parse(JSON.stringify(payload));
-  payload.save();
+  await payload.save();
   return data;
 };
 

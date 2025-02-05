@@ -11,7 +11,7 @@ const addName = async (post: Name): Promise<void> => {
   const { firstName, lastName } = post;
   let payload = new name({ firstName, lastName });
   const data = JSON.parse(JSON.stringify(payload));
-  payload.save();
+  await payload.save();
   return data;
 };
 

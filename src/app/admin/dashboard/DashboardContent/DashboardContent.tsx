@@ -13,71 +13,25 @@ import {
   Mail,
   Phone,
   ExternalLink,
+  Pencil,
+  Recycle,
+  Trash,
 } from "lucide-react";
+import useSections from "@/utils/sections.util";
+import { fetchSkillById } from "@/actions/edit/editSkill";
 
 export default function PortfolioDashboard() {
-  const sections = [
-    { id: 1, name: "Name", icon: <FolderPen />, content: "John Doe" },
-    {
-      id: 2,
-      name: "Sub title",
-      icon: <Captions />,
-      content: "Full Stack Developer",
-    },
-    {
-      id: 3,
-      name: "Project",
-      icon: <Folder />,
-      content: [
-        {
-          title: "Project One",
-          description: "A web application built with React and Node.js",
-        },
-        {
-          title: "Project Two",
-          description: "Mobile app developed using React Native",
-        },
-        {
-          title: "Project Three",
-          description: "E-commerce platform with Next.js and MongoDB",
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "About me",
-      icon: <EqualApproximately />,
-      content:
-        "Passionate developer with 5 years of experience in creating web and mobile applications. Always eager to learn new technologies and solve complex problems.",
-    },
-    {
-      id: 5,
-      name: "Skill",
-      icon: <List />,
-      content: [
-        { name: "JavaScript", level: "Advanced" },
-        { name: "React", level: "Expert" },
-        { name: "Node.js", level: "Intermediate" },
-        { name: "Python", level: "Beginner" },
-      ],
-    },
-    {
-      id: 6,
-      name: "Contact",
-      icon: <Contact />,
-      content: {
-        email: "john.doe@example.com",
-        phone: "+1 234 567 8900",
-        linkedin: "linkedin.com/in/johndoe",
-        github: "github.com/johndoe",
-      },
-    },
-  ];
-
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
 
   const toggleSection = (id: number) => {
     setExpandedSection(expandedSection === id ? null : id);
+  };
+
+  const fetchSkill = async (id: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const response = await fetchSkillById(id);
+    console.log(response);
+    return response;
   };
 
   return (
@@ -86,7 +40,7 @@ export default function PortfolioDashboard() {
         Portfolio Dashboard
       </h1>
       <div className="space-y-6">
-        {sections.map((section) => (
+        {useSections().map((section) => (
           <div
             key={section.id}
             className="bg-white rounded-xl shadow-lg overflow-hidden"
@@ -97,9 +51,9 @@ export default function PortfolioDashboard() {
             >
               <div className="flex items-center">
                 <span className="mr-4 text-blue-600">{section.icon}</span>
-                <h2 className="text-xl font-semibold text-gray-800">
-                  {section.name}
-                </h2>
+                <h4 className="text-xl font-semibold text-gray-800">
+                  <span>{section.name}</span>
+                </h4>
               </div>
               {expandedSection === section.id ? (
                 <ChevronUp className="w-5 h-5 text-gray-500" />
@@ -110,12 +64,34 @@ export default function PortfolioDashboard() {
             {expandedSection === section.id && (
               <div className="px-6 pb-6">
                 {section.id === 1 && (
-                  <p className="text-2xl font-bold text-gray-900">
-                    {section.content}
-                  </p>
+                  <div className="flex justify-between">
+                    <p className="text-xl font-bold text-gray-900">
+                      {section.content}
+                    </p>
+                    <div className="flex space-x-3">
+                      <button>
+                        <Pencil className="h-5 w-5 hover:text-gray-900 hover:cursor-pointer transition-colors duration-200" />
+                      </button>
+                      <button>
+                        <Trash className="h-5 w-5 text-red-500 hover:text-red-600 hover:cursor-pointer transition-colors duration-200" />
+                      </button>
+                    </div>
+                  </div>
                 )}
                 {section.id === 2 && (
-                  <p className="text-xl text-gray-600">{section.content}</p>
+                  <div className="flex justify-between">
+                    <p className="text-xl font-bold text-gray-900">
+                      {section.content}
+                    </p>
+                    <div className="flex space-x-3">
+                      <button>
+                        <Pencil className="h-5 w-5 hover:text-gray-900 hover:cursor-pointer transition-colors duration-200" />
+                      </button>
+                      <button>
+                        <Trash className="h-5 w-5 text-red-500 hover:text-red-600 hover:cursor-pointer transition-colors duration-200" />
+                      </button>
+                    </div>
+                  </div>
                 )}
                 {section.id === 3 && (
                   <div className="space-y-4">
@@ -137,13 +113,35 @@ export default function PortfolioDashboard() {
                 {section.id === 5 && (
                   <div className="grid grid-cols-2 gap-4">
                     {section.content.map((skill: any, index: number) => (
-                      <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          {skill.name}
-                        </h3>
-                        <p className="mt-2 text-gray-600">
-                          Level: {skill.level}
-                        </p>
+                      <div
+                        key={index}
+                        className="bg-gray-50 p-4 rounded-lg flex justify-between"
+                      >
+                        <input
+                          type="hidden"
+                          readOnly
+                          name=""
+                          value={skill.id}
+                        />
+                        <a
+                          href={skill.link}
+                          target="_blank"
+                          className="text-lg font-semibold text-gray-800"
+                        >
+                          {skill.skill}
+                        </a>
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={() => {
+                              fetchSkill(skill.id);
+                            }}
+                          >
+                            <Pencil className="h-5 w-5 hover:text-gray-900 hover:cursor-pointer transition-colors duration-200" />
+                          </button>
+                          <button>
+                            <Trash className="h-5 w-5 text-red-500 hover:text-red-600 hover:cursor-pointer transition-colors duration-200" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>

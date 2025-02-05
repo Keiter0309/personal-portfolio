@@ -1,10 +1,7 @@
+import subTitle from "@/models/subTitle";
 import { NextResponse } from "next/server";
 
-const subTitle = {
-  id: 1,
-  title: "A Web Developer",
-};
-
 export async function GET() {
-  return NextResponse.json(subTitle);
+  const data = await subTitle.find({});
+  return NextResponse.json(data);
 }
